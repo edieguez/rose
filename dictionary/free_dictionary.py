@@ -12,4 +12,19 @@ def query(word):
 
 
 def json_to_entity(json):
-    return entities.Word(json[0].get('word'))
+    definitions = {}
+
+    for word in json:
+        for meaning in word['meanings']:
+            for definition in meaning['definitions']:
+                if meaning['partOfSpeech'] not in definitions:
+                    definitions[meaning['partOfSpeech']] = []
+
+                definition = entities.Definition(
+                    definition.get('definition', None),
+                    definition.get('example', None)
+                )
+
+                definitions[meaning['partOfSpeech']].append(definition)
+
+    return entities.Word(None, json[0].get('word'), definitions)

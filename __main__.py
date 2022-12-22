@@ -1,12 +1,19 @@
 #! /usr/bin/env python
-from dictionary import free_dictionary
 from database import dao
+from dictionary import free_dictionary
 
 print('Rose project')
 
 dao.create_initial_database()
-result = free_dictionary.query('test')
+term = 'awe'
 
-dao.insert_word(result)
+result = free_dictionary.query(term)
+word = dao.get_word_by_text(result.text)
 
-print(f'TEXT: {result.text}')
+if not word:
+    print(f'Word {term} not found in database')
+
+    dao.insert_word(result)
+    dao.insert_definitions(result, result.definitions)
+
+print(dao.get_word_by_text(result.text))
