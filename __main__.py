@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 from database import dao
 from dictionary import free_dictionary
+from cli import anki
 
 print('Rose project')
 
@@ -14,6 +15,9 @@ if not word:
     print(f'Word {term} not found in database')
 
     dao.insert_word(result)
-    dao.insert_definitions(result, result.definitions)
+    word = dao.get_word_by_text(result.text)
 
-print(dao.get_word_by_text(result.text))
+    dao.insert_definitions(word, result.definitions)
+    anki.add_note(word.text, str(result.definitions))
+
+anki.export_deck()
