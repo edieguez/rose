@@ -18,6 +18,6 @@ if not word:
     word = dao.get_word_by_text(result.text)
 
     dao.insert_definitions(word, result.definitions)
-    anki.add_note(word.text, str(result.definitions))
+    anki.add_note(word.text, result.definitions)
 
 anki.export_deck()
