@@ -40,9 +40,16 @@ def query_word_definition(term: str):
         word = dao.get_word_by_text(result.text)
 
         dao.insert_definitions(word, result.definitions)
-        anki.add_note(word.text, result.definitions)
+
+        _print_definitions(result)
     else:
         print(f'Word {term} found in database. Nothing to do')
+
+
+def _print_definitions(result):
+    for partOfTheSpeech, meanings in result.definitions.items():
+        for meaning in meanings:
+            print(f'{partOfTheSpeech}: {meaning.description} - {meaning.example}')
 
 
 if __name__ == '__main__':
