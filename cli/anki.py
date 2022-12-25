@@ -31,7 +31,7 @@ def _parse_definitions(definitions):
     return template.render(context)
 
 
-def export_deck():
+def export_deck(deck_name):
     package = genanki.Package(deck)
     package.media_files = []
-    package.write_to_file('rose.apkg')
+    package.write_to_file(f'{deck_name}.apkg')

@@ -1,4 +1,5 @@
 #! /usr/bin/env python
+import argparse
 import sys
 
 from cli import anki
@@ -11,13 +12,19 @@ def parse_arguments():
         print('No arguments provided')
         sys.exit(1)
 
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-e', '--export', type=str, nargs='?', const='rose_dict', metavar='filename', help='Anki deck name')
+    parser.add_argument('words', nargs='*', help='Words to be added to the dictionary')
 
-if __name__ == '__main__':
-    parse_arguments()
+    return parser.parse_args()
 
-    dao.create_initial_database()
-    term = sys.argv[1]
 
+def save_word_definitions(words: list):
+    for word in words:
+        query_word_definition(word)
+
+
+def query_word_definition(term: str):
     result = free_dictionary.query(term)
 
     if not result:
@@ -37,4 +44,12 @@ if __name__ == '__main__':
     else:
         print(f'Word {term} found in database. Nothing to do')
 
-    anki.export_deck()
+
+if __name__ == '__main__':
+    args = parse_arguments()
+    dao.create_initial_database()
+
+    if args.export:
+        anki.export_deck(args.export)
+    else:
+        save_word_definitions(args.words)
