@@ -40,9 +40,20 @@ def get_definitions_by_word_id(word_id):
     conn, cursor = _get_conn()
 
     with conn:
-        db_definitions = conn.execute('SELECT description, example FROM definitions WHERE words_id = ?', (word_id,))
+        db_definitions = conn.execute('SELECT part_of_speech, description, example FROM definitions WHERE words_id = ?',
+                                      (word_id,))
 
-        return [entities.Definition(definition[0], definition[1]) for definition in db_definitions.fetchall()]
+        definitions = db_definitions.fetchall()
+        segregated_definitions = {}
+
+        for definition in definitions:
+            if definition[0] not in segregated_definitions:
+                segregated_definitions[definition[0]] = []
+
+            segregated_definitions[definition[0]].append(
+                entities.Definition(definition[0], definition[1], definition[2]))
+
+        return segregated_definitions
 
 
 def insert_definitions(word, definitions):
@@ -52,8 +63,8 @@ def insert_definitions(word, definitions):
         for partOfTheSpeech, meanings in definitions.items():
             for meaning in meanings:
                 cursor.execute(
-                    'INSERT INTO definitions(words_id, description, example) VALUES(?, ?, ?)', (
-                        word.id, meaning.description, meaning.example
+                    'INSERT INTO definitions(words_id, part_of_speech, description, example) VALUES(?, ?, ?, ?)', (
+                        word.id, partOfTheSpeech, meaning.description, meaning.example
                     ))
 
 

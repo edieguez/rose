@@ -9,7 +9,8 @@ class Word:
 
 
 class Definition:
-    def __init__(self, description, example):
+    def __init__(self, part_of_speech, description, example):
+        self.part_of_speech = part_of_speech
         self.description = description
         self.example = example
 

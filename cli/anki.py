@@ -2,6 +2,7 @@ import genanki
 from jinja2 import Environment, FileSystemLoader
 
 from database import dao
+from model import entities
 
 
 def add_note(deck, word, definitions):
@@ -17,8 +18,14 @@ def _parse_definitions(definitions):
     env = Environment(loader=FileSystemLoader('resources/templates'))
     template = env.get_template('word_definition.html')
 
+    parsed_definitions = {}
+
+    for part_of_speech, meanings in definitions.items():
+        parsed_definitions[part_of_speech] = [entities.Definition(part_of_speech, meaning.description, meaning.example)
+                                              for meaning in meanings]
+
     context = {
-        'definitions': definitions
+        'definitions': parsed_definitions
     }
 
     return template.render(context)

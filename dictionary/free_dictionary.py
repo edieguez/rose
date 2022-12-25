@@ -21,6 +21,7 @@ def json_to_entity(json):
                     definitions[meaning['partOfSpeech']] = []
 
                 definition = entities.Definition(
+                    meaning['partOfSpeech'],
                     definition.get('definition', None),
                     definition.get('example', None)
                 )
