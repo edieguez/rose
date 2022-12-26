@@ -8,23 +8,24 @@ from model import entities
 def add_note(deck, word, definitions):
     note = genanki.Note(
         genanki.BASIC_TYPE_IN_THE_ANSWER_MODEL,
-        fields=[_parse_definitions(definitions), word]
+        fields=[_parse_definitions(word, definitions), word.text]
     )
 
     deck.add_note(note)
 
 
-def _parse_definitions(definitions):
+def _parse_definitions(word, definitions):
     env = Environment(loader=FileSystemLoader('resources/templates'))
     template = env.get_template('word_definition.html')
 
     parsed_definitions = {}
 
     for part_of_speech, meanings in definitions.items():
-        parsed_definitions[part_of_speech] = [entities.Definition(part_of_speech, meaning.description, meaning.example)
+        parsed_definitions[part_of_speech] = [entities.Definition(meaning.description, part_of_speech, meaning.example)
                                               for meaning in meanings]
 
     context = {
+        'image_url': word.image_url,
         'definitions': parsed_definitions
     }
 
@@ -38,7 +39,7 @@ def export_deck(deck_name):
 
     for word in dao.get_all_words():
         definitions = dao.get_definitions_by_word_id(word.id)
-        add_note(deck, word.text, definitions)
+        add_note(deck, word, definitions)
 
         print(f'Found {len(definitions)} definitions for {word.text}')
 

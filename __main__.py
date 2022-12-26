@@ -13,7 +13,8 @@ def parse_arguments():
         sys.exit(1)
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('-e', '--export', type=str, nargs='?', const='rose_dict', metavar='filename', help='Anki deck name')
+    parser.add_argument('-e', '--export', type=str, nargs='?', const='rose_dict', metavar='filename',
+                        help='Anki deck name')
     parser.add_argument('words', nargs='*', help='Words to be added to the dictionary')
 
     return parser.parse_args()
@@ -29,7 +30,7 @@ def query_word_definition(term: str):
 
     if not result:
         print(f'{term} definition not found')
-        sys.exit(2)
+        return
 
     word = dao.get_word_by_text(result.text)
 

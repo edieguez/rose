@@ -34,9 +34,11 @@
 </style>
 
 <article>
+    {% if image_url %}
     <figure id="image">
-        <img src="https://picsum.photos/800">
+        <img src="{{ image_url }}">
     </figure>
+    {% endif %}
 
     <div id="definitions">
         {% for part_of_speech, definitions in definitions.items() %}

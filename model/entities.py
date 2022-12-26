@@ -1,7 +1,8 @@
 class Word:
-    def __init__(self, id, text, definitions=None):
-        self.id = id
+    def __init__(self, id_=None, text=None, image_url=None, definitions=None):
+        self.id = id_
         self.text = text
+        self.image_url = image_url
         self.definitions = definitions
 
     def __repr__(self):
@@ -9,7 +10,7 @@ class Word:
 
 
 class Definition:
-    def __init__(self, part_of_speech, description, example):
+    def __init__(self, description, part_of_speech=None, example=None):
         self.part_of_speech = part_of_speech
         self.description = description
         self.example = example

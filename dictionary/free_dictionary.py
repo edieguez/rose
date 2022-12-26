@@ -1,4 +1,5 @@
 import requests
+
 from model import entities
 
 API_URL = 'https://api.dictionaryapi.dev/api/v2/entries/en'
@@ -21,11 +22,11 @@ def json_to_entity(json):
                     definitions[meaning['partOfSpeech']] = []
 
                 definition = entities.Definition(
+                    definition.get('definition'),
                     meaning['partOfSpeech'],
-                    definition.get('definition', None),
                     definition.get('example', None)
                 )
 
                 definitions[meaning['partOfSpeech']].append(definition)
 
-    return entities.Word(None, json[0].get('word'), definitions)
+    return entities.Word(text=json[0].get('word'), definitions=definitions)
