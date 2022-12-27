@@ -26,31 +26,30 @@ def save_word_definitions(words: list):
 
 
 def query_word_definition(term: str):
-    result = free_dictionary.query(term)
+    api_word, api_definitions = free_dictionary.query(term)
 
-    if not result:
+    if not api_word:
         print(f'{term} definition not found')
         return
 
-    word = dao.get_word_by_text(result.text)
+    db_word = dao.get_word_by_text(api_word.text)
 
-    if not word:
+    if not db_word:
         print(f'Word {term} not found in database')
 
-        dao.insert_word(result)
-        word = dao.get_word_by_text(result.text)
+        dao.insert_word(api_word)
+        db_word = dao.get_word_by_text(api_word.text)
 
-        dao.insert_definitions(word, result.definitions)
+        dao.insert_definitions(db_word, api_definitions)
 
-        _print_definitions(result)
+        _print_definitions(api_definitions)
     else:
         print(f'Word {term} found in database. Nothing to do')
 
 
-def _print_definitions(result):
-    for partOfTheSpeech, meanings in result.definitions.items():
-        for meaning in meanings:
-            print(f'{partOfTheSpeech}: {meaning.description} - {meaning.example}')
+def _print_definitions(definitions):
+    for definition in definitions:
+        print(f'[{definition.part_of_speech}] {definition.description} - ({definition.example})')
 
 
 if __name__ == '__main__':

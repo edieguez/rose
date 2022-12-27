@@ -2,7 +2,6 @@ import genanki
 from jinja2 import Environment, FileSystemLoader
 
 from database import dao
-from model import entities
 
 
 def add_note(deck, word, definitions):
@@ -20,9 +19,11 @@ def _parse_definitions(word, definitions):
 
     parsed_definitions = {}
 
-    for part_of_speech, meanings in definitions.items():
-        parsed_definitions[part_of_speech] = [entities.Definition(meaning.description, part_of_speech, meaning.example)
-                                              for meaning in meanings]
+    for definition in definitions:
+        if definition.part_of_speech not in parsed_definitions:
+            parsed_definitions[definition.part_of_speech] = []
+
+        parsed_definitions[definition.part_of_speech].append(definition)
 
     context = {
         'image_url': word.image_url,

@@ -1,12 +1,11 @@
 class Word:
-    def __init__(self, id_=None, text=None, image_url=None, definitions=None):
+    def __init__(self, id_=None, text=None, image_url=None):
         self.id = id_
         self.text = text
         self.image_url = image_url
-        self.definitions = definitions
 
     def __repr__(self):
-        return f'Word(id={self.id}, text={self.text}, definitions={self.definitions})'
+        return f'Word(id={self.id}, text={self.text})'
 
 
 class Definition:

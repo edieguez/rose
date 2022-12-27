@@ -9,24 +9,23 @@ def query(word):
     response = requests.get(f'{API_URL}/{word}')
 
     if response.status_code == 200:
-        return json_to_entity(response.json())
+        return _json_to_entity(response.json())
+
+    return None, None
 
 
-def json_to_entity(json):
-    definitions = {}
+def _json_to_entity(json):
+    definitions = []
 
     for word in json:
         for meaning in word['meanings']:
             for definition in meaning['definitions']:
-                if meaning['partOfSpeech'] not in definitions:
-                    definitions[meaning['partOfSpeech']] = []
-
                 definition = entities.Definition(
                     definition.get('definition'),
                     meaning['partOfSpeech'],
                     definition.get('example', None)
                 )
 
-                definitions[meaning['partOfSpeech']].append(definition)
+                definitions.append(definition)
 
-    return entities.Word(text=json[0].get('word'), definitions=definitions)
+    return entities.Word(text=json[0].get('word')), definitions

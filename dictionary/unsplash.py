@@ -1,4 +1,5 @@
 import os
+
 import requests
 
 UNSPLASH_API_KEY = os.environ.get('UNSPLASH_API_KEY')
