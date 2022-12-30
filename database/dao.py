@@ -1,15 +1,16 @@
 import os
 import sqlite3
 
+import cli
 from dictionary import unsplash
 from model import entities
 
 
 def create_initial_database():
-    if not os.path.exists('database.sqlite'):
+    if not os.path.exists(os.path.join(cli.base_dir, 'rose.sqlite3')):
         conn, cursor = _get_conn()
 
-        with open('resources/schema.sql', 'r') as f:
+        with open(os.path.join(cli.inner_base_dir, 'resources', 'schema.sql'), 'r') as f:
             cursor.executescript(f.read())
 
         conn.commit()
@@ -67,8 +68,10 @@ def _get_raw_word_by_text(text):
         return db_word.fetchone() if db_word else None
 
 
-def _get_conn(database='database.sqlite'):
-    conn = sqlite3.connect(database)
+def _get_conn():
+    database_file = os.path.join(cli.base_dir, 'rose.sqlite3')
+
+    conn = sqlite3.connect(database_file)
     cursor = conn.cursor()
 
     return conn, cursor

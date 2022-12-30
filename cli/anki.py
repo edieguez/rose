@@ -1,6 +1,9 @@
+import os.path
+
 import genanki
 from jinja2 import Environment, FileSystemLoader
 
+import cli
 from database import dao
 
 
@@ -14,7 +17,7 @@ def add_note(deck, word, definitions):
 
 
 def _parse_definitions(word, definitions):
-    env = Environment(loader=FileSystemLoader('resources/templates'))
+    env = Environment(loader=FileSystemLoader(os.path.join(cli.inner_base_dir, 'resources', 'templates')))
     template = env.get_template('word_definition.html')
 
     parsed_definitions = {}
@@ -35,7 +38,7 @@ def _parse_definitions(word, definitions):
 
 def export_deck(deck_name):
     deck = genanki.Deck(1802257999, 'Rose dictionary')
-    filename = f'{deck_name}.apkg'
+    filename = os.path.join(os.getcwd(), f'{deck_name}.apkg')
     print(f'Exporting to {filename}')
 
     for word in dao.get_all_words():
