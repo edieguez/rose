@@ -30,7 +30,8 @@ def _parse_definitions(word, definitions):
 
     context = {
         'image_url': word.image_url,
-        'definitions': parsed_definitions
+        'definitions': parsed_definitions,
+        'audio_url': word.audio_url
     }
 
     return template.render(context)

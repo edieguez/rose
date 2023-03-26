@@ -1,3 +1,38 @@
+<article>
+    <div id="media">
+        {% if image_url %}
+        <figure id="image">
+            <img src="{{ image_url }}">
+        </figure>
+        {% endif %}
+
+        {% if audio_url %}
+        <div id="audio">
+            <audio controls autoplay>
+                <source src="{{ audio_url }}" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+        {% endif %}
+    </div>
+
+    <div id="definitions">
+        {% for part_of_speech, definitions in definitions.items() %}
+        <h3>{{ part_of_speech }}</h3>
+        <ol>
+            {% for definition in definitions %}
+            <li>{{ definition.description }}</li>
+            {% if definition.example is not none %}
+            <ul>
+                <li class="example">{{ definition.example }}</li>
+            </ul>
+            {% endif %}
+            {% endfor %}
+        </ol>
+        {% endfor %}
+    </div>
+</article>
+
 <style>
   article {
     display: flex;
@@ -32,27 +67,3 @@
     }
   }
 </style>
-
-<article>
-    {% if image_url %}
-    <figure id="image">
-        <img src="{{ image_url }}">
-    </figure>
-    {% endif %}
-
-    <div id="definitions">
-        {% for part_of_speech, definitions in definitions.items() %}
-        <h3>{{ part_of_speech }}</h3>
-        <ol>
-            {% for definition in definitions %}
-            <li>{{ definition.description }}</li>
-                {% if definition.example is not none %}
-                    <ul>
-                        <li class="example">{{ definition.example }}</li>
-                    </ul>
-                {% endif %}
-            {% endfor %}
-        </ol>
-        {% endfor %}
-    </div>
-</article>
