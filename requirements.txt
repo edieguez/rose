@@ -1,2 +1,3 @@
 genanki
+jinja2
 requests
