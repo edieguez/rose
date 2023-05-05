@@ -1,5 +1,7 @@
 package com.artemisa.rose.service;
 
+import com.artemisa.rose.model.DictionaryResult;
+
 public interface DictionaryService {
-    String getDefinition(String word, String lang);
+    DictionaryResult getDefinition(String word, String lang);
 }
