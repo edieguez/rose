@@ -1,7 +1,7 @@
 package com.artemisa.rose.service.impl;
 
 import com.artemisa.rose.mapper.FreeDictionaryMapper;
-import com.artemisa.rose.model.DictionaryResult;
+import com.artemisa.rose.model.Word;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -17,7 +17,7 @@ public class FreeDictionaryApi {
     @Autowired
     private FreeDictionaryMapper freeDictionaryMapper;
 
-    public DictionaryResult getDefinition(String word, String lang) {
+    public Word getDefinition(String word, String lang) {
         return freeDictionaryMapper
                 .map(dictionaryApiTemplate.getForObject(WORD_DEFINITION_URL, String.class, lang, word));
     }
