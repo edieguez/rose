@@ -1,7 +1,8 @@
 class Word:
-    def __init__(self, id_=None, text=None, image_url=None, audio_url=None):
+    def __init__(self, id_=None, text=None, phonetic=None, image_url=None, audio_url=None):
         self.id = id_
         self.text = text
+        self.phonetic = phonetic
         self.image_url = image_url
         self.audio_url = audio_url
 

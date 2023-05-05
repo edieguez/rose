@@ -6,6 +6,12 @@
         </figure>
         {% endif %}
 
+        {% if phonetic %}
+            <div id="phonetic">
+                <em>{{phonetic}}</em>
+            </div>
+        {% endif %}
+
         {% if audio_url %}
         <div id="audio">
             <audio controls autoplay>

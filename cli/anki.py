@@ -31,7 +31,8 @@ def _parse_definitions(word, definitions):
     context = {
         'image_url': word.image_url,
         'definitions': parsed_definitions,
-        'audio_url': word.audio_url
+        'audio_url': word.audio_url,
+        'phonetic': word.phonetic
     }
 
     return template.render(context)

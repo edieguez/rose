@@ -16,6 +16,7 @@ def query(word):
 
 def _json_to_entity(json):
     definitions = []
+    phonetic = None
     audio_url = None
 
     for word in json:
@@ -23,6 +24,8 @@ def _json_to_entity(json):
             if phonetic['audio']:
                 audio_url = phonetic['audio']
                 break
+
+        phonetic = word.get('phonetic', None)
 
         for meaning in word['meanings']:
             for definition in meaning['definitions']:
@@ -34,4 +37,6 @@ def _json_to_entity(json):
 
                 definitions.append(definition)
 
-    return entities.Word(text=json[0].get('word'), audio_url=audio_url), definitions
+        break
+
+    return entities.Word(text=json[0].get('word'), phonetic=phonetic, audio_url=audio_url), definitions

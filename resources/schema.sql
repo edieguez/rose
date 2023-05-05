@@ -13,6 +13,7 @@ DROP TABLE IF EXISTS "words";
 CREATE TABLE IF NOT EXISTS "words" (
   "id" INTEGER NOT NULL,
   "text" TEXT NOT NULL UNIQUE,
+  "phonetic" TEXT,
   "image_url" TEXT,
   "audio_url" TEXT,
   PRIMARY KEY("id" AUTOINCREMENT)
